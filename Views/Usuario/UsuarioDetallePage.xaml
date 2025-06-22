@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Prueba.ViewModels"
+             xmlns:converters="clr-namespace:Prueba.Converters"
+             x:Class="Prueba.Views.Usuario.UsuarioDetallePage"
+             x:DataType="viewmodels:UsuarioDetalleViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="#00643b">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="Nombre" FontAttributes="Bold" TextColor="White" />
+            <Entry Text="{Binding DetalleUsuario.Nombre}"
+                   IsReadOnly="{Binding EsSoloLectura}"
+                   BackgroundColor="White"/>
+
+            <Label Text="Email" FontAttributes="Bold" TextColor="White" />
+            <Entry Text="{Binding DetalleUsuario.Email}"
+                   IsReadOnly="{Binding EsSoloLectura}"
+                   BackgroundColor="White"/>
+
+            <Label Text="Contraseña" FontAttributes="Bold" TextColor="White" />
+            <Entry Text="{Binding DetalleUsuario.Contrasenia}"
+                   IsReadOnly="{Binding EsSoloLectura}"
+                   BackgroundColor="White"
+                   IsPassword="True"/>
+
+            <Label Text="Rol" FontAttributes="Bold" TextColor="White" />
+            <Entry Text="{Binding DetalleUsuario.RolDesdeApi}"
+               IsReadOnly="{Binding EsSoloLectura}"
+               Placeholder="Ingrese: Administrador o Usuario"
+               BackgroundColor="White"/>
+            <Label Text="(Debe escribir: 'Administrador' o 'Usuario')"
+               FontSize="12"
+               TextColor="LightGray"
+               IsVisible="{Binding ModoEdicion}" />
+
+            <Label Text="Categoría Preferida" FontAttributes="Bold" TextColor="White" />
+            <Entry Text="{Binding DetalleUsuario.CategoriaPreferida}"
+                   IsReadOnly="{Binding EsSoloLectura}"
+                   BackgroundColor="White"/>
+
+            <HorizontalStackLayout Spacing="10" Margin="0,20,0,0">
+
+                <Button Text="Modificar"
+                        IsVisible="{Binding MostrarBotones}"
+                        Command="{Binding ActivarEdicionCommand}"
+                        BackgroundColor="Orange"
+                        TextColor="White"
+                        CornerRadius="8" />
+
+                <Button Text="Eliminar"
+                        IsVisible="{Binding MostrarBotones}"
+                        Command="{Binding ConfirmarYEliminarCommand}"
+                        BackgroundColor="Red"
+                        TextColor="White"
+                        CornerRadius="8" />
+
+                <Button Text="{Binding TextoBoton}"
+                        Command="{Binding EjecutarAccionCommand}"
+                        BackgroundColor="DodgerBlue"
+                        TextColor="White"
+                        CornerRadius="8" />
+            </HorizontalStackLayout>
+
+            <Button Text="Cancelar"
+                    Command="{Binding GoBackCommand}"
+                    BackgroundColor="LightGray"
+                    TextColor="Black"
+                    CornerRadius="8" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

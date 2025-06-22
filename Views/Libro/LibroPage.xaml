@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Prueba.Views.Libro.LibroPage"
+             xmlns:vm="clr-namespace:Prueba.ViewModels"
+             xmlns:model="clr-namespace:Prueba.Models"
+             x:DataType="vm:LibroViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="#00643b">
+
+    <Grid ColumnDefinitions="*,*" ColumnSpacing="5" RowDefinitions="*,Auto" RowSpacing="0">
+
+        <RefreshView Grid.ColumnSpan="2"
+                     Command="{Binding ObtenerTodosLibrosCommand}"
+                     IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView Grid.Row="0"
+                            ItemsSource="{Binding Libros}"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding LibroSeleccionado}"
+                            SelectionChangedCommand="{Binding GoToLibroDetalleCommand}"
+                            Margin="10">
+
+                <CollectionView.EmptyView>
+                    <StackLayout Padding="100">
+                        <Grid HorizontalOptions="Fill">
+                            <Image Source="not_found.jpg"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Grid>
+                    </StackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Libros">
+                        <Border BackgroundColor="White"
+                                Stroke="Black"
+                                StrokeThickness="1"
+                                Margin="0,5"
+                                Padding="10"
+                                StrokeShape="RoundRectangle 8">
+
+                            <Grid ColumnDefinitions="Auto,*"
+                                  ColumnSpacing="15"
+                                  RowSpacing="5"
+                                  VerticalOptions="Center">
+
+                                <Image Grid.Column="0"
+                                       Source="{Binding Imagen}"
+                                       WidthRequest="82"
+                                       HeightRequest="83"
+                                       Aspect="AspectFit" />
+
+                                <VerticalStackLayout Grid.Column="1"
+                                                     Spacing="4"
+                                                     VerticalOptions="Center">
+                                    <Label Text="{Binding Nombre, StringFormat='Título: {0}'}"
+                                           FontAttributes="Bold"
+                                           TextColor="Black" />
+                                    <Label Text="{Binding Descripcion, StringFormat='Descripción: {0}'}"
+                                           TextColor="Black"
+                                           MaxLines="2"
+                                           LineBreakMode="TailTruncation"/>
+                                    <Label Text="{Binding Precio, StringFormat='Precio: ${0:F2}'}"
+                                           TextColor="DarkGreen" />
+                                    <Label Text="{Binding Stock, StringFormat='Stock: {0}'}"
+                                           TextColor="DarkSlateGray" />
+                                    <Label Text="{Binding AniodePublicacion, StringFormat='Publicado: {0:yyyy}'}"
+                                           TextColor="Gray" />
+                                    <Label Text="{Binding NombreAutor, StringFormat='Autor: {0}'}"
+                                           TextColor="DarkSlateBlue" />
+                                    <Label Text="{Binding NombreCategoria, StringFormat='Categoría: {0}'}"
+                                           TextColor="Teal" />
+                                </VerticalStackLayout>
+
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <Grid Grid.Row="1" Grid.ColumnSpan="2" Padding="0,10">
+            <HorizontalStackLayout HorizontalOptions="Center"
+                       Spacing="20"
+                       Padding="10"
+                       VerticalOptions="End">
+                <Button Text="Agregar"
+                        Command="{Binding GoToLibroAgregarCommand}"
+                        BackgroundColor="Green"
+                        TextColor="White"
+                        CornerRadius="8"
+                        WidthRequest="120"
+                        HeightRequest="40" />
+
+                <Button Text="Ver Valoraciones"
+                        Command="{Binding GoToValoracionesCommand}"
+                        BackgroundColor="MediumPurple"
+                        TextColor="White"
+                        CornerRadius="8"
+                        WidthRequest="160"
+                        HeightRequest="40" />
+            </HorizontalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

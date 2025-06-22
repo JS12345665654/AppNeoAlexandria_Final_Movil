@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Prueba.ViewModels"
+             x:Class="Prueba.Views.ValoraciondeUsuarios.ValoraciondeUsuariosAgregarPage"
+             x:DataType="viewmodels:ValoraciondeUsuariosAgregarViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="#00643b">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="ID Usuario" TextColor="White" />
+            <Entry Text="{Binding IdUsuario}" 
+                   Keyboard="Numeric" 
+                   BackgroundColor="White" />
+
+            <Label Text="ID Libro" TextColor="White" />
+            <Entry Text="{Binding IdLibro}" 
+                   Keyboard="Numeric" 
+                   BackgroundColor="White" />
+
+            <Label Text="Valoración" TextColor="White" />
+            <Entry Text="{Binding Valoracion}" 
+                   Keyboard="Numeric" 
+                   BackgroundColor="White" />
+
+            <Label Text="Puntuación" TextColor="White" />
+            <Editor Text="{Binding Puntuacion}" 
+                    BackgroundColor="White" 
+                    HeightRequest="100" />
+
+            <Button Text="Guardar"
+                    Command="{Binding AgregarValoracionCommand}"
+                    BackgroundColor="Green"
+                    TextColor="White"
+                    CornerRadius="10" />
+
+            <Button Text="Cancelar"
+                    Command="{Binding CancelarCommand}"
+                    BackgroundColor="LightGray"
+                    TextColor="Black"
+                    CornerRadius="10" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

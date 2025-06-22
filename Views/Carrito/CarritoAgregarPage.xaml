@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Prueba.ViewModels"
+             x:Class="Prueba.Views.Carrito.CarritoAgregarPage"
+             x:DataType="vm:CarritoAgregarViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="#00643b">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <Label Text="ID Carrito" TextColor="White"/>
+            <Entry Text="{Binding IdCarrito}" Keyboard="Numeric" BackgroundColor="White"/>
+
+            <Label Text="ID Usuario" TextColor="White"/>
+            <Entry Text="{Binding IdUsuario}" Keyboard="Numeric" BackgroundColor="White"/>
+
+            <Label Text="Precio Total" TextColor="White"/>
+            <Entry Text="{Binding PrecioTotalCarrito}" Keyboard="Numeric" BackgroundColor="White"/>
+
+            <Label Text="Fecha de Creación" TextColor="White"/>
+            <DatePicker Date="{Binding FechaCreacion}" BackgroundColor="White"/>
+
+            <Label Text="Descripción" TextColor="White"/>
+            <Editor Text="{Binding Descripcion}" HeightRequest="100" BackgroundColor="White"/>
+
+            <Label Text="Estado" TextColor="White"/>
+            <Switch IsToggled="{Binding Estado}" />
+
+            <Button Text="Agregar"
+                    Command="{Binding CrearCarritosCommand}"
+                    BackgroundColor="DarkGreen"
+                    TextColor="White"
+                    CornerRadius="8"/>
+
+            <Button Text="Cancelar"
+                    Command="{Binding CancelarCommand}"
+                    BackgroundColor="LightGray"
+                    TextColor="Black"
+                    CornerRadius="8"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

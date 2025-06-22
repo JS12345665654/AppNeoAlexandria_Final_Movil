@@ -1,0 +1,33 @@
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:DataType="viewmodels:AutorAgregarViewModel"
+    xmlns:viewmodels="clr-namespace:Prueba.ViewModels"
+    x:Class="Prueba.Views.Autor.AutorAgregarPage"
+    Title="{Binding Title}"
+    BackgroundColor="#00643b">
+   
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="Nombre del Autor" />
+            <Entry Text="{Binding NombreAutor}" />
+
+            <Label Text="Biografía" />
+            <Editor Text="{Binding Biografia}" HeightRequest="100" />
+
+            <Label Text="Año de Nacimiento" />
+            <DatePicker Date="{Binding AnioNacimiento}" />
+
+            <Label Text="Año de Fallecimiento" />
+            <DatePicker Date="{Binding AnioFallecimiento}" />
+
+            <Button Text="Agregar"
+                    Command="{Binding AgregarAutorCommand}" />
+
+            <Button Text="Cancelar"
+                    Command="{Binding CancelarCommand}"
+                    BackgroundColor="Gray" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

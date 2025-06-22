@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Prueba.ViewModels"
+             xmlns:model="clr-namespace:Prueba.Models"
+             x:Class="Prueba.Views.ValoraciondeUsuarios.ValoraciondeUsuariosPage"
+             x:DataType="vm:ValoraciondeUsuariosViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="#00643b">
+
+    <Grid ColumnDefinitions="*,*" ColumnSpacing="5" RowDefinitions="*,Auto" RowSpacing="0">
+        <RefreshView Grid.ColumnSpan="2"
+                     Command="{Binding ObtenerTodasValoracionesCommand}"
+                     IsRefreshing="{Binding IsRefreshing}">
+            <ScrollView Margin="10">
+                <CollectionView Grid.Row="1"
+                                ItemsSource="{Binding Valoracion}"
+                                SelectionMode="Single"
+                                SelectedItem="{Binding ValoracionSeleccionada}"
+                                SelectionChangedCommand="{Binding GoToValoracionDetalleCommand}">
+                    <CollectionView.EmptyView>
+                        <StackLayout Padding="100">
+                            <Image Source="not_found.jpg"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </StackLayout>
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:ValoraciondeUsuario">
+                            <Border BackgroundColor="White"
+                                    Stroke="DarkGray"
+                                    StrokeThickness="1"
+                                    Padding="10"
+                                    Margin="0,5"
+                                    StrokeShape="RoundRectangle 8">
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding IdValoracion, StringFormat='ID: {0}'}"
+                                           FontAttributes="Bold"
+                                           TextColor="Black"/>
+                                    <Label Text="{Binding IdUsuario, StringFormat='Usuario: {0}'}"
+                                           TextColor="Black"/>
+                                    <Label Text="{Binding IdLibro, StringFormat='Libro: {0}'}"
+                                           TextColor="Black"/>
+                                    <Label Text="{Binding Valoracion, StringFormat='Valoración: {0}'}"
+                                           TextColor="Black"/>
+                                    <Label Text="{Binding Puntuacion, StringFormat='Puntuación: {0}'}"
+                                           TextColor="Black"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
+        </RefreshView>
+
+        <Grid Grid.Row="1" Padding="0,15,0,0">
+            <HorizontalStackLayout Padding="10"
+                                   Spacing="20"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="End">
+                <Button Text="Agregar"
+                        TextColor="White"
+                        BackgroundColor="Green"
+                        Command="{Binding GoToValoracionAgregarCommand}" />
+            </HorizontalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

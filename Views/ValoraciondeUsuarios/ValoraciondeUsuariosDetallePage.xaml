@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Prueba.ViewModels"
+             xmlns:converters="clr-namespace:Prueba.Converters"
+             x:Class="Prueba.Views.ValoraciondeUsuarios.ValoraciondeUsuariosDetallePage"
+             x:DataType="viewmodels:ValoraciondeUsuariosDetalleViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="#00643b">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="ID Valoración" TextColor="White" />
+            <Entry Text="{Binding DetalleValoracion.IdValoracion}" IsReadOnly="True" BackgroundColor="White"/>
+
+            <Label Text="ID Usuario" TextColor="White" />
+            <Entry Text="{Binding DetalleValoracion.IdUsuario}" IsReadOnly="{Binding EsSoloLectura}" BackgroundColor="White"/>
+
+            <Label Text="ID Libro" TextColor="White" />
+            <Entry Text="{Binding DetalleValoracion.IdLibro}" IsReadOnly="{Binding EsSoloLectura}" BackgroundColor="White"/>
+
+            <Label Text="Puntuación" TextColor="White" />
+            <Entry Text="{Binding DetalleValoracion.Puntuacion}" IsReadOnly="{Binding EsSoloLectura}" BackgroundColor="White"/>
+
+            <Label Text="Comentario" TextColor="White" />
+            <Editor Text="{Binding DetalleValoracion.Valoracion}" 
+                    IsReadOnly="{Binding EsSoloLectura}" 
+                    HeightRequest="100"
+                    BackgroundColor="White"/>
+
+            <HorizontalStackLayout Spacing="10" Margin="0,20,0,0">
+                <Button Text="Modificar"
+                        IsVisible="{Binding MostrarBotones}"
+                        Command="{Binding ActivarEdicionCommand}"
+                        BackgroundColor="Orange"
+                        TextColor="White"
+                        CornerRadius="8" />
+
+                <Button Text="Eliminar"
+                        IsVisible="{Binding MostrarBotones}"
+                        Command="{Binding ConfirmarYEliminarCommand}"
+                        BackgroundColor="Red"
+                        TextColor="White"
+                        CornerRadius="8" />
+
+                <Button Text="{Binding TextoBoton}"
+                        Command="{Binding EjecutarAccionCommand}"
+                        BackgroundColor="DodgerBlue"
+                        TextColor="White"
+                        CornerRadius="8" />
+            </HorizontalStackLayout>
+
+            <Button Text="Cancelar"
+                    Command="{Binding GoBackCommand}"
+                    BackgroundColor="LightGray"
+                    TextColor="Black"
+                    CornerRadius="8" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

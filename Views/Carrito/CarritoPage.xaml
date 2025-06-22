@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Prueba.ViewModels"
+             xmlns:model="clr-namespace:Prueba.Models"
+             x:Class="Prueba.Views.Carrito.CarritoPage"
+             x:DataType="vm:CarritoViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="#00643b">
+
+    <Grid RowDefinitions="*,Auto">
+        <RefreshView Command="{Binding ObtenerTodosCarritosCommand}" IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView ItemsSource="{Binding Carritos}"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding CarritoSeleccionado}"
+                            SelectionChangedCommand="{Binding GoToCarritoDetalleCommand}"
+                            Margin="10">
+                <CollectionView.EmptyView>
+                    <StackLayout Padding="100">
+                        <Image Source="not_found.jpg" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </StackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Carrito">
+                        <Border BackgroundColor="White" Margin="0,5" Padding="10">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+                            <VerticalStackLayout>
+                                <Label Text="{Binding IdCarrito, StringFormat='ID: {0}'}" TextColor="Black"/>
+                                <Label Text="{Binding Descripcion, StringFormat='Descripción: {0}'}" TextColor="Black"/>
+                                <Label Text="{Binding PrecioTotalCarrito, StringFormat='Total: ${0:F2}'}" TextColor="Black"/>
+                                <Label Text="{Binding Estado, StringFormat='Activo: {0}'}" TextColor="Black"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <!-- Botón inferior -->
+        <Grid Grid.Row="1" BackgroundColor="#00643b" Padding="10" HeightRequest="70">
+            <Button Text="Agregar Carrito"
+                    Command="{Binding GoToCarritoAgregarCommand}"
+                    BackgroundColor="DarkGreen"
+                    TextColor="White"
+                    CornerRadius="10"/>
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Prueba.ViewModels"
+             x:Class="Prueba.Views.Libro.LibroAgregarPage"
+             x:DataType="viewmodels:LibroAgregarViewModel"
+             Title="Agregar Libro"
+             BackgroundColor="#00643b">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="Nombre" TextColor="White"/>
+            <Entry Text="{Binding Nombre}" BackgroundColor="White"/>
+
+            <Label Text="Descripción" TextColor="White"/>
+            <Editor Text="{Binding Descripcion}" BackgroundColor="White" HeightRequest="100"/>
+
+            <Label Text="Precio" TextColor="White"/>
+            <Entry Text="{Binding Precio}" Keyboard="Numeric" BackgroundColor="White"/>
+
+            <Label Text="Stock" TextColor="White"/>
+            <Entry Text="{Binding Stock}" Keyboard="Numeric" BackgroundColor="White"/>
+
+            <Label Text="Año de Publicación" TextColor="White"/>
+            <DatePicker Date="{Binding AniodePublicacion}" BackgroundColor="White"/>
+
+            <Label Text="URL Imagen" TextColor="White"/>
+            <Entry Text="{Binding Imagen}" BackgroundColor="White"/>
+
+            <Label Text="ID Categoría" TextColor="White"/>
+            <Entry Text="{Binding IdCategoria}" Keyboard="Numeric" BackgroundColor="White"/>
+
+            <Label Text="ID Autor" TextColor="White"/>
+            <Entry Text="{Binding IdAutor}" Keyboard="Numeric" BackgroundColor="White"/>
+
+            <!-- Botones -->
+            <Button Text="Guardar"
+                    Command="{Binding CrearLibroCommand}"
+                    BackgroundColor="DodgerBlue"
+                    TextColor="White"
+                    CornerRadius="8"/>
+
+            <Button Text="Cancelar"
+                    Command="{Binding CancelarCommand}"
+                    BackgroundColor="LightGray"
+                    TextColor="Black"
+                    CornerRadius="8"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,88 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Prueba.Views.Usuario.UsuarioPage"
+             xmlns:vm="clr-namespace:Prueba.ViewModels"
+             xmlns:model="clr-namespace:Prueba.Models"
+             x:DataType="vm:UsuarioViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="#00643b">
+
+    <Grid ColumnDefinitions="*,*" ColumnSpacing="5" RowDefinitions="*,Auto" RowSpacing="0">
+        <RefreshView Grid.ColumnSpan="2" Command="{Binding ObtenerTodosUsuariosCommand}" IsRefreshing="{Binding IsRefreshing}">
+            <ScrollView Margin="10">
+                <CollectionView Grid.Row="1"
+                                ItemsSource="{Binding Usuarios}"
+                                SelectionMode="Single"
+                                SelectedItem="{Binding UsuarioSeleccionado}"
+                                SelectionChangedCommand="{Binding GoToUsuarioDetalleCommand}">
+                    <CollectionView.EmptyView>
+                        <StackLayout Padding="100">
+                            <Image Source="not_found.jpg" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </StackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Usuario">
+                            <StackLayout>
+                                <Border BackgroundColor="DarkCyan" Margin="12" Padding="10">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="10"/>
+                                    </Border.StrokeShape>
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Image Source="user_solid.png" Grid.Column="0" WidthRequest="35" HeightRequest="35" Margin="10,0,0,0"/>
+                                        <BoxView Grid.Column="1" WidthRequest="4" Color="White" VerticalOptions="Fill" Margin="10,0,5,0"/>
+
+                                        <StackLayout Grid.Column="2" VerticalOptions="Center" Margin="0,10,0,10">
+
+                                            <Grid Padding="0,15,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Text="ID Usuario:" Grid.Column="0" HorizontalOptions="End" Padding="10,0"/>
+                                                <Label Text="{Binding IdUsuario}" Grid.Column="1" HorizontalOptions="Start"/>
+                                            </Grid>
+
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Text="Nombre:" Grid.Column="0" HorizontalOptions="End" Padding="10,0"/>
+                                                <Label Text="{Binding Nombre}" Grid.Column="1" HorizontalOptions="Start"/>
+                                            </Grid>
+
+                                            <Grid Padding="0,15,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Text="Email:" Grid.Column="0" HorizontalOptions="End" Padding="10,0"/>
+                                                <Label Text="{Binding Email}" Grid.Column="1" HorizontalOptions="Start"/>
+                                            </Grid>
+
+                                            <Grid Padding="0,15,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Text="Categoría:" Grid.Column="0" HorizontalOptions="End" Padding="10,0"/>
+                                                <Label Text="{Binding CategoriaPreferida}" Grid.Column="1" HorizontalOptions="Start"/>
+                                            </Grid>
+                                        </StackLayout>
+                                    </Grid>
+                                </Border>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

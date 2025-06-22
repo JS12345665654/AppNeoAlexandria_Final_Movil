@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Prueba.Views.Categoria.CategoriaPage"
+             xmlns:vm="clr-namespace:Prueba.ViewModels"
+             xmlns:model="clr-namespace:Prueba.Models"
+             x:DataType="vm:CategoriaViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="#00643b">
+
+    <Grid RowDefinitions="*,Auto">
+        <!-- Lista de Categorías -->
+        <RefreshView Command="{Binding ObtenerTodasCategoriasCommand}" IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView ItemsSource="{Binding Categorias}"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding CategoriaSeleccionada}"
+                            SelectionChangedCommand="{Binding GoToCategoriaDetalleCommand}"
+                            Margin="10">
+                <CollectionView.EmptyView>
+                    <StackLayout Padding="100">
+                        <Image Source="not_found.jpg" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </StackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Categoria">
+                        <Border BackgroundColor="White" Margin="0,5" Padding="10">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="{Binding IdCategoria, StringFormat='ID: {0}'}" FontSize="14" TextColor="Black"/>
+                                <Label Text="{Binding NombreCategoria, StringFormat='Nombre: {0}'}" FontSize="16" FontAttributes="Bold" TextColor="Black"/>
+                                <Label Text="{Binding DescripcionCategoria, StringFormat='Descripción: {0}'}" FontSize="14" LineBreakMode="TailTruncation" TextColor="Black"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <!-- Botón inferior -->
+        <Grid Grid.Row="1" BackgroundColor="#00643b" Padding="10" HeightRequest="70">
+            <Button Text="Agregar"
+                    Command="{Binding GoToCategoriaAgregarCommand}"
+                    BackgroundColor="DarkGreen"
+                    TextColor="White"
+                    HorizontalOptions="Fill"
+                    CornerRadius="10" />
+        </Grid>
+    </Grid>
+</ContentPage>

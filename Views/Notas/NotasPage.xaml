@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Prueba.ViewModels"
+             xmlns:model="clr-namespace:Prueba.Models"
+             x:Class="Prueba.Views.Notas.NotasPage"
+             x:DataType="vm:NotasViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="#00643b">
+
+    <Grid ColumnDefinitions="*,*" ColumnSpacing="5" RowDefinitions="*,Auto" RowSpacing="0">
+        <RefreshView Grid.ColumnSpan="2"
+                     Command="{Binding ObtenerTodasNotasCommand}"
+                     IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView Grid.Row="0"
+                            ItemsSource="{Binding Notas}"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding NotaSeleccionada}"
+                            SelectionChangedCommand="{Binding GoToNotaDetalleCommand}"
+                            Margin="10">
+                <CollectionView.EmptyView>
+                    <StackLayout Padding="100">
+                        <Image Source="not_found.jpg"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </StackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Notas">
+                        <Border BackgroundColor="White"
+                                Stroke="DarkGray"
+                                StrokeThickness="1"
+                                Padding="10"
+                                Margin="0,5"
+                                StrokeShape="RoundRectangle 8">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding IdNota, StringFormat='ID: {0}'}"
+                                       FontAttributes="Bold"
+                                       TextColor="Black"/>
+                                <Label Text="{Binding IdLibro, StringFormat='Id Libro: {0}'}"
+                                       TextColor="Black"/>
+                                <Label Text="{Binding IdUsuario, StringFormat='Id Usuario: {0}'}"
+                                       TextColor="Black"/>
+                                <Label Text="{Binding TextoNota, StringFormat='TextoNota: {0}'}"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="3"
+                                       TextColor="Black"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <Grid Grid.Row="1" Padding="0,15,0,10">
+            <HorizontalStackLayout Padding="0"
+                           HorizontalOptions="Center"
+                           VerticalOptions="End">
+                <Button Text="Agregar"
+                TextColor="White"
+                BackgroundColor="Green"
+                Margin="0,0,0,10"
+                WidthRequest="140"
+                HeightRequest="45"
+                CornerRadius="8"
+                Command="{Binding GoToNotaAgregarCommand}" />
+            </HorizontalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

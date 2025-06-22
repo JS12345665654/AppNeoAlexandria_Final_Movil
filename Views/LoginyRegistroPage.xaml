@@ -1,0 +1,59 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Prueba.Views.LoginyRegistroPage"
+             xmlns:vm="clr-namespace:Prueba.ViewModels"
+             xmlns:converters="clr-namespace:Prueba.Converters"
+             x:DataType="vm:LoginyRegistroViewModel"
+             Title="{Binding Title}"
+             Background="#00643b">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBoolConverter x:Key="InverseBool"/>
+            <converters:BoolToLoginTextConverter x:Key="BoolToLoginText"/>
+            <converters:BoolToRegistroTextConverter x:Key="BoolToRegistroText"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid HorizontalOptions="Center">
+        <ScrollView>
+            <StackLayout Padding="30" Spacing="10" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="310">
+                <Image Source="logo.png" HeightRequest="170" />
+
+                <Label Text="{Binding Title}" FontSize="Large" TextColor="White" HorizontalOptions="Center"/>
+
+                <Entry Placeholder="Nombre" Text="{Binding Nombre}" 
+                       IsVisible="{Binding ModoLogin, Converter={StaticResource InverseBool}}" />
+
+                <Entry Placeholder="Email" Text="{Binding Email}" />
+
+                <Entry Placeholder="Contraseña" Text="{Binding Contrasenia}" IsPassword="True" />
+
+                <Entry Placeholder="Categoría preferida (opcional)" 
+                       Text="{Binding CategoriaPreferida}" 
+                       IsVisible="{Binding ModoLogin, Converter={StaticResource InverseBool}}" />
+
+                <Label Text="Rol" 
+                   TextColor="White" 
+                   IsVisible="{Binding ModoLogin, Converter={StaticResource InverseBool}}"
+                   FontAttributes="Bold"
+                />
+
+                <Picker Title="Seleccione un rol"
+                    ItemsSource="{Binding RolesDisponibles}"
+                    SelectedItem="{Binding IdRol}"
+                    IsVisible="{Binding ModoLogin, Converter={StaticResource InverseBool}}"
+                    TextColor="Black"
+                    BackgroundColor="White"
+                />
+
+                <Button Text="{Binding ModoLogin, Converter={StaticResource BoolToLoginText}}" 
+                        Command="{Binding ConfirmarCommand}"
+                        BackgroundColor="Blue" TextColor="White" CornerRadius="10" />
+
+                <Button Text="{Binding ModoLogin, Converter={StaticResource BoolToRegistroText}}" 
+                        Command="{Binding CambiarModoCommand}"
+                        BackgroundColor="Transparent" TextColor="White" FontAttributes="Italic" />
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

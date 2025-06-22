@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Prueba.ViewModels"
+             xmlns:converters="clr-namespace:Prueba.Converters"
+             x:Class="Prueba.Views.Libro.LibroDetallePage"
+             x:DataType="viewmodels:LibroDetalleViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="#00643b">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="Título" TextColor="White" />
+            <Entry Text="{Binding DetalleLibro.Nombre}" 
+                   IsReadOnly="{Binding EsSoloLectura}"
+                   BackgroundColor="White" />
+
+            <Label Text="Descripción" TextColor="White" />
+            <Editor Text="{Binding DetalleLibro.Descripcion}" 
+                    IsReadOnly="{Binding EsSoloLectura}"
+                    BackgroundColor="White"
+                    HeightRequest="100" />
+
+            <Label Text="Precio" TextColor="White" />
+            <Entry Text="{Binding DetalleLibro.Precio}" 
+                   IsReadOnly="{Binding EsSoloLectura}"
+                   Keyboard="Numeric"
+                   BackgroundColor="White" />
+
+            <Label Text="Stock" TextColor="White" />
+            <Entry Text="{Binding DetalleLibro.Stock}" 
+                   IsReadOnly="{Binding EsSoloLectura}"
+                   Keyboard="Numeric"
+                   BackgroundColor="White" />
+
+            <Label Text="Año de Publicación" TextColor="White" />
+            <DatePicker Date="{Binding DetalleLibro.AniodePublicacion}" 
+                        IsEnabled="{Binding EsSoloLectura, Converter={StaticResource InverseBoolConverter}}" 
+                        BackgroundColor="White" />
+
+            <Label Text="Autor" TextColor="White" />
+            <Label Text="{Binding AutorSeleccionado.NombreAutor}" 
+                   IsVisible="{Binding ModoEdicion, Converter={StaticResource InverseBoolConverter}}"
+                   TextColor="White" FontAttributes="Italic" />
+            <Picker Title="Seleccionar autor"
+                    ItemsSource="{Binding ListaAutores}"
+                    ItemDisplayBinding="{Binding NombreAutor}"
+                    SelectedItem="{Binding AutorSeleccionado}"
+                    IsVisible="{Binding ModoEdicion}"
+                    BackgroundColor="White" />
+
+            <Label Text="Categoría" TextColor="White" />
+            <Label Text="{Binding CategoriaSeleccionada.NombreCategoria}" 
+                   TextColor="White" FontAttributes="Italic"
+                   IsVisible="{Binding ModoEdicion, Converter={StaticResource InverseBoolConverter}}" />
+            <Picker Title="Seleccionar categoría"
+                    ItemsSource="{Binding ListaCategorias}"
+                    ItemDisplayBinding="{Binding NombreCategoria}"
+                    SelectedItem="{Binding CategoriaSeleccionada}"
+                    IsVisible="{Binding ModoEdicion}"
+                    BackgroundColor="White" />
+
+            <HorizontalStackLayout Spacing="10" Margin="0,20,0,0">
+                <Button Text="Modificar"
+                        IsVisible="{Binding MostrarBotones}"
+                        Command="{Binding ActivarEdicionCommand}"
+                        BackgroundColor="Orange"
+                        TextColor="White"
+                        CornerRadius="8" />
+
+                <Button Text="Eliminar"
+                        IsVisible="{Binding MostrarBotones}"
+                        Command="{Binding ConfirmarYEliminarCommand}"
+                        BackgroundColor="Red"
+                        TextColor="White"
+                        CornerRadius="8" />
+
+                <Button Text="{Binding TextoBoton}"
+                        Command="{Binding EjecutarAccionCommand}"
+                        BackgroundColor="DodgerBlue"
+                        TextColor="White"
+                        CornerRadius="8" />
+            </HorizontalStackLayout>
+
+            <Button Text="Cancelar"
+                    Command="{Binding GoBackCommand}"
+                    BackgroundColor="LightGray"
+                    TextColor="Black"
+                    CornerRadius="8" />
+
+            <Label Text="Acción relacionada" FontAttributes="Bold" TextColor="White" Margin="0,20,0,5"/>
+            <HorizontalStackLayout Spacing="10">
+                <Button Text="Ver Notas"
+                        Command="{Binding VerNotasCommand}"
+                        BackgroundColor="DarkViolet"
+                        TextColor="White"
+                        CornerRadius="8" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
