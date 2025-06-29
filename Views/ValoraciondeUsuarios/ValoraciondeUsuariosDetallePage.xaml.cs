@@ -11,4 +11,14 @@ public partial class ValoraciondeUsuariosDetallePage : ContentPage
         InitializeComponent();
         BindingContext = new ValoraciondeUsuariosDetalleViewModel(valoracion, accion);
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (BindingContext is ValoraciondeUsuariosViewModel vm)
+        {
+            vm.ObtenerTodasValoracionesCommand.Execute(null);
+        }
+    }
 }

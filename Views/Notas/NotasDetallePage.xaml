@@ -60,7 +60,7 @@
                         TextColor="White"
                         CornerRadius="8" />
             </HorizontalStackLayout>
-            
+
             <Button Text="Cancelar"
                     Command="{Binding GoBackCommand}"
                     BackgroundColor="LightGray"

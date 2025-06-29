@@ -9,20 +9,70 @@ namespace Prueba.ViewModels
 {
     public partial class ValoraciondeUsuariosViewModel : BaseViewModel
     {
-        [ObservableProperty] private ObservableCollection<ValoraciondeUsuario> valoracion;
-        [ObservableProperty] private ValoraciondeUsuario valoracionSeleccionada;
-        [ObservableProperty] private bool isRefreshing;
+        [ObservableProperty]
+        private ObservableCollection<ValoraciondeUsuario> valoraciones;
+
+        [ObservableProperty]
+        private ValoraciondeUsuario valoracionSeleccionada;
+
+        [ObservableProperty]
+        private bool isRefreshing;
 
         private readonly int? _idLibro;
+        public int? IdLibro => _idLibro;
 
         public ValoraciondeUsuariosViewModel(int? idLibro = null)
         {
-            Valoracion = new ObservableCollection<ValoraciondeUsuario>();
+            _idLibro = idLibro;
+            Valoraciones = new ObservableCollection<ValoraciondeUsuario>();
             ValoracionSeleccionada = new ValoraciondeUsuario();
             Title = "Valoraciones";
-            _idLibro = idLibro;
 
-            Task.Run(async () => await ObtenerTodasValoraciones()).Wait();
+            _ = ObtenerValoracionesIniciales();
+        }
+
+        private async Task ObtenerValoracionesIniciales()
+        {
+            if (_idLibro.HasValue)
+                await ObtenerValoracionesPorLibro(_idLibro.Value);
+            else
+                await ObtenerTodasValoraciones();
+        }
+
+        [RelayCommand]
+        private async Task ObtenerValoracionesPorLibro(int idLibro)
+        {
+            IsBusy = IsRefreshing = true;
+
+            var lista = await ApiService.ObtenerValoracionesPorLibro(idLibro);
+            var usuarios = await ApiService.ObtenerTodosUsuarios();
+
+            foreach (var valoracion in lista)
+            {
+                valoracion.NombreUsuario = usuarios.FirstOrDefault(u => u.IdUsuario == valoracion.IdUsuario)?.Nombre ?? "Sin nombre";
+            }
+
+            Valoraciones = new ObservableCollection<ValoraciondeUsuario>(lista);
+
+            IsBusy = IsRefreshing = false;
+        }
+
+        [RelayCommand]
+        private async Task ObtenerTodasValoraciones()
+        {
+            IsBusy = IsRefreshing = true;
+
+            var lista = await ApiService.ObtenerTodasValoraciones();
+            var usuarios = await ApiService.ObtenerTodosUsuarios();
+
+            foreach (var valoracion in lista)
+            {
+                valoracion.NombreUsuario = usuarios.FirstOrDefault(u => u.IdUsuario == valoracion.IdUsuario)?.Nombre ?? "Sin nombre";
+            }
+
+            Valoraciones = new ObservableCollection<ValoraciondeUsuario>(lista);
+
+            IsBusy = IsRefreshing = false;
         }
 
         [RelayCommand]
@@ -32,30 +82,14 @@ namespace Prueba.ViewModels
         }
 
         [RelayCommand]
-        private async Task ObtenerTodasValoraciones()
-        {
-            IsBusy = isRefreshing = true;
-
-            var lista = await ApiService.ObtenerTodasValoraciones();
-
-            if (lista != null)
-            {
-                if (_idLibro.HasValue)
-                    lista = lista.Where(v => v.IdLibro == _idLibro.Value).ToList();
-
-                Valoracion = new ObservableCollection<ValoraciondeUsuario>(lista);
-            }
-
-            IsBusy = isRefreshing = false;
-        }
-
-        [RelayCommand]
         private async Task GoToValoracionDetalle()
         {
             if (ValoracionSeleccionada == null) return;
 
             await Application.Current.MainPage.Navigation.PushAsync(
                 new ValoraciondeUsuariosDetallePage(ValoracionSeleccionada, "Detalle"));
+
+            await RefrescarAlVolver();
         }
 
         [RelayCommand]
@@ -65,6 +99,8 @@ namespace Prueba.ViewModels
 
             await Application.Current.MainPage.Navigation.PushAsync(
                 new ValoraciondeUsuariosDetallePage(ValoracionSeleccionada, "Modificar"));
+
+            await RefrescarAlVolver();
         }
 
         [RelayCommand]
@@ -74,6 +110,8 @@ namespace Prueba.ViewModels
 
             await Application.Current.MainPage.Navigation.PushAsync(
                 new ValoraciondeUsuariosDetallePage(ValoracionSeleccionada, "Eliminar"));
+
+            await RefrescarAlVolver();
         }
 
         [RelayCommand]
@@ -81,6 +119,19 @@ namespace Prueba.ViewModels
         {
             await Application.Current.MainPage.Navigation.PushAsync(
                 new ValoraciondeUsuariosAgregarPage());
+
+            await RefrescarAlVolver();
+        }
+
+        private async Task RefrescarAlVolver()
+        {
+            // Espera breve para asegurar el pop de la navegación antes de refrescar
+            await Task.Delay(300);
+
+            if (_idLibro.HasValue)
+                await ObtenerValoracionesPorLibro(_idLibro.Value);
+            else
+                await ObtenerTodasValoraciones();
         }
     }
 }

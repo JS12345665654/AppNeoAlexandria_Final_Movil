@@ -359,29 +359,42 @@ namespace Prueba
         public static async Task<bool> CrearCarritos(Carrito carrito)
         {
             string FINAL_URL = BASE_URL + "Carrito";
+
             try
             {
-                var content = new StringContent(
-                        JsonSerializer.Serialize(carrito),
-                        Encoding.UTF8, "application/json"
-                );
+                var json = JsonSerializer.Serialize(carrito, new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                    WriteIndented = true
+                });
 
-                var result = await httpClient.PostAsync(FINAL_URL, content).ConfigureAwait(false);
+                Console.WriteLine("JSON a enviar:");
+                Console.WriteLine(json);
 
-                if (result.StatusCode == System.Net.HttpStatusCode.OK)
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await httpClient.PostAsync(FINAL_URL, content).ConfigureAwait(false);
+
+                string responseContent = await response.Content.ReadAsStringAsync();
+
+                Console.WriteLine($"StatusCode: {response.StatusCode}");
+                Console.WriteLine($"Contenido de respuesta: {responseContent}");
+
+                if (response.IsSuccessStatusCode)
                 {
                     return true;
                 }
                 else
                 {
-                    return false;
+                    throw new Exception($"Status: {response.StatusCode}, Error: {responseContent}");
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                Console.WriteLine("Excepción al crear carrito: " + ex.Message);
+                throw new Exception("Error al crear carrito: " + ex.Message);
             }
         }
+
         public static async Task<List<Carrito>> ObtenerCarritosPorId(int IdCarrito)
         {
             string URL = "https://appneo.somee.com/api/Carrito/ObtenerPorId/" + IdCarrito;
@@ -461,6 +474,26 @@ namespace Prueba
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+
+        public static async Task<bool> CrearCarritoConDetalle(CarritoConDetalleDTO dto)
+        {
+            string FINAL_URL = BASE_URL + "Carrito/CrearConDetalle";
+            try
+            {
+                var content = new StringContent(
+                    JsonSerializer.Serialize(dto),
+                    Encoding.UTF8, "application/json"
+                );
+
+                var result = await httpClient.PostAsync(FINAL_URL, content).ConfigureAwait(false);
+
+                return result.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al crear carrito con detalle: {ex.Message}");
             }
         }
 
@@ -746,7 +779,6 @@ namespace Prueba
         {
             string FINAL_URL = BASE_URL + "Categorias/" + IdCategoria;
 
-            // ✅ Agregar token JWT
             httpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", TokenStore.JwtToken);
 
@@ -1060,7 +1092,7 @@ namespace Prueba
         //API Service - Valoracion de los usuarios
         public static async Task<List<ValoraciondeUsuario>> ObtenerTodasValoraciones()
         {
-            string FINAL_URL = BASE_URL + "ValoriacionUsuarios";
+            string FINAL_URL = BASE_URL + "ValoracionUsuarios";
 
             try
             {
@@ -1098,7 +1130,7 @@ namespace Prueba
         }
         public static async Task<bool> AgregarValoracion(ValoraciondeUsuario valoraciondeUsuarios)
         {
-            string FINAL_URL = BASE_URL + "ValoriacionUsuarios";
+            string FINAL_URL = BASE_URL + "ValoracionUsuarios";
             try
             {
                 var content = new StringContent(
@@ -1126,7 +1158,7 @@ namespace Prueba
 
         public static async Task<List<ValoraciondeUsuario>> ObtenerValoracionesPorId(int IdValoracion)
         {
-            string URL = "https://appneo.somee.com/api/ValoriacionUsuarios/ObtenerValoriacionesPorId/" + IdValoracion;
+            string URL = "https://appneo.somee.com/api/ValoracionUsuarios/ObtenerValoriacionesPorId/" + IdValoracion;
 
             try
             {
@@ -1136,7 +1168,6 @@ namespace Prueba
                     var jsonData = await response.Content.ReadAsStringAsync();
                     if (!string.IsNullOrWhiteSpace(jsonData))
                     {
-                        // Inside the ApiService class
                         var responseObject = JsonSerializer.Deserialize<List<ValoraciondeUsuario>>(jsonData,
                             new JsonSerializerOptions
                             {
@@ -1165,7 +1196,7 @@ namespace Prueba
 
         public static async Task<bool> ModificarValoracion(ValoraciondeUsuario valoracionmodificada)
         {
-            string FINAL_URL = BASE_URL + "ValoriacionUsuarios/" + valoracionmodificada.IdValoracion;
+            string FINAL_URL = BASE_URL + "ValoracionUsuarios/" + valoracionmodificada.IdValoracion;
             try
             {
                 var content = new StringContent(
@@ -1192,7 +1223,7 @@ namespace Prueba
 
         public static async Task<bool> EliminarValoracion(int IdValoracion)
         {
-            string FINAL_URL = BASE_URL + "ValoriacionUsuarios/" + IdValoracion;
+            string FINAL_URL = BASE_URL + "ValoracionUsuarios/" + IdValoracion;
 
             httpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", TokenStore.JwtToken);
@@ -1206,6 +1237,30 @@ namespace Prueba
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+
+        public static async Task<List<ValoraciondeUsuario>> ObtenerValoracionesPorLibro(int idLibro)
+        {
+            string FINAL_URL = BASE_URL + $"ValoracionUsuarios/PorLibro/{idLibro}";
+            try
+            {
+                var response = await httpClient.GetAsync(FINAL_URL).ConfigureAwait(false);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    return JsonSerializer.Deserialize<List<ValoraciondeUsuario>>(content,
+                        new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+                }
+                else
+                {
+                    return new List<ValoraciondeUsuario>();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al obtener valoraciones: {ex.Message}");
             }
         }
 

@@ -36,15 +36,19 @@ public partial class NotasViewModel : BaseViewModel
         IsBusy = isRefreshing = true;
 
         var lista = await ApiService.ObtenerTodasNotas();
+        var usuarios = await ApiService.ObtenerTodosUsuarios();
+        var libros = await ApiService.ObtenerTodosLibros();
 
-        if (lista != null)
+        foreach (var nota in lista)
         {
-            if (_idLibro.HasValue)
-                lista = lista.Where(n => n.IdLibro == _idLibro.Value).ToList();
-
-            Notas = new ObservableCollection<Notas>(lista);
+            nota.NombreUsuario = usuarios.FirstOrDefault(u => u.IdUsuario == nota.IdUsuario)?.Nombre ?? "Sin nombre";
+            nota.NombreLibro = libros.FirstOrDefault(l => l.IdLibro == nota.IdLibro)?.Nombre ?? "Sin título";
         }
 
+        if (_idLibro.HasValue)
+            lista = lista.Where(n => n.IdLibro == _idLibro.Value).ToList();
+
+        Notas = new ObservableCollection<Notas>(lista);
         IsBusy = isRefreshing = false;
     }
 
@@ -75,7 +79,9 @@ public partial class NotasViewModel : BaseViewModel
     [RelayCommand]
     private async Task GoToNotaAgregar()
     {
-        await Application.Current.MainPage.Navigation.PushAsync(
-            new NotasAgregarPage());
+        if (_idLibro.HasValue)
+            await Application.Current.MainPage.Navigation.PushAsync(new NotasAgregarPage(_idLibro.Value));
+        else
+            await Application.Current.MainPage.DisplayAlert("Error", "Debe acceder desde el detalle de un libro para agregar una nota.", "Aceptar");
     }
 }

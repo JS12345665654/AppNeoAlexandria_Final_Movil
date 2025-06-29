@@ -40,7 +40,7 @@
                    Keyboard="Numeric"
                    BackgroundColor="White" />
 
-            <Label Text="Año de Publicación" TextColor="White" />
+            <Label Text="Año de Publicación" TextColor="White" FontSize="16" />
             <DatePicker Date="{Binding DetalleLibro.AniodePublicacion}" 
                         IsEnabled="{Binding EsSoloLectura, Converter={StaticResource InverseBoolConverter}}" 
                         BackgroundColor="White" />
@@ -95,13 +95,29 @@
                     TextColor="Black"
                     CornerRadius="8" />
 
-            <Label Text="Acción relacionada" FontAttributes="Bold" TextColor="White" Margin="0,20,0,5"/>
+            <Label Text="Acciones relacionadas" FontAttributes="Bold" TextColor="White" Margin="0,20,0,5"/>
             <HorizontalStackLayout Spacing="10">
                 <Button Text="Ver Notas"
-                        Command="{Binding VerNotasCommand}"
-                        BackgroundColor="DarkViolet"
-                        TextColor="White"
-                        CornerRadius="8" />
+                    Command="{Binding VerNotasCommand}"
+                    BackgroundColor="DarkViolet"
+                    TextColor="White"
+                    FontSize="18"
+                    CornerRadius="8" />
+                <Button Text="Agregar al Carrito"
+                    Command="{Binding AñadirAlCarritoCommand}"
+                    BackgroundColor="Black"
+                    TextColor="White"
+                    FontSize="18"
+                    CornerRadius="8"/>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Spacing="10" Margin="0,10,0,0">
+                <Button Text="Ver Valoraciones"
+                    Command="{Binding VerValoracionesCommand}"
+                    BackgroundColor="SaddleBrown"
+                    TextColor="White"
+                    FontSize="18"
+                    CornerRadius="8"/>
             </HorizontalStackLayout>
         </VerticalStackLayout>
     </ScrollView>

@@ -119,6 +119,23 @@ public partial class CarritoDetalleViewModel : BaseViewModel
     [RelayCommand]
     private async Task GoBack()
     {
+        try
+        {
+            var carritoPage = Application.Current.MainPage.Navigation
+                .NavigationStack
+                .Reverse()
+                .FirstOrDefault(p => p is Views.Carrito.CarritoPage) as Views.Carrito.CarritoPage;
+
+            if (carritoPage?.BindingContext is CarritoViewModel vm)
+            {
+                await vm.ObtenerTodosCarritos();
+            }
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert("Error", $"Error al actualizar la lista: {ex.Message}", "Aceptar");
+        }
+
         await Application.Current.MainPage.Navigation.PopAsync();
     }
 }

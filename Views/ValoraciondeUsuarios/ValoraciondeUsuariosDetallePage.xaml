@@ -20,14 +20,25 @@
             <Label Text="ID Valoración" TextColor="White" />
             <Entry Text="{Binding DetalleValoracion.IdValoracion}" IsReadOnly="True" BackgroundColor="White"/>
 
-            <Label Text="ID Usuario" TextColor="White" />
-            <Entry Text="{Binding DetalleValoracion.IdUsuario}" IsReadOnly="{Binding EsSoloLectura}" BackgroundColor="White"/>
+            <Label Text="Usuario" TextColor="White" />
+            <Label Text="{Binding UsuarioSeleccionado.Nombre}" 
+                   IsVisible="{Binding ModoEdicion, Converter={StaticResource InverseBoolConverter}}"
+                   TextColor="White" FontAttributes="Italic" />
+            <Picker Title="Seleccionar usuario"
+                    ItemsSource="{Binding ListaUsuarios}"
+                    ItemDisplayBinding="{Binding Nombre}"
+                    SelectedItem="{Binding UsuarioSeleccionado}"
+                    IsVisible="{Binding ModoEdicion}"
+                    BackgroundColor="White" />
 
             <Label Text="ID Libro" TextColor="White" />
-            <Entry Text="{Binding DetalleValoracion.IdLibro}" IsReadOnly="{Binding EsSoloLectura}" BackgroundColor="White"/>
+            <Entry Text="{Binding DetalleValoracion.IdLibro}" IsReadOnly="True" BackgroundColor="White"/>
 
             <Label Text="Puntuación" TextColor="White" />
-            <Entry Text="{Binding DetalleValoracion.Puntuacion}" IsReadOnly="{Binding EsSoloLectura}" BackgroundColor="White"/>
+            <Picker ItemsSource="{Binding PuntuacionesDisponibles}"
+                    SelectedItem="{Binding DetalleValoracion.Puntuacion}"
+                    IsEnabled="{Binding EsSoloLectura, Converter={StaticResource InverseBoolConverter}}"
+                    BackgroundColor="White" />
 
             <Label Text="Comentario" TextColor="White" />
             <Editor Text="{Binding DetalleValoracion.Valoracion}" 

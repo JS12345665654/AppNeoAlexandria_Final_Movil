@@ -7,14 +7,15 @@ namespace Prueba.ViewModels;
 
 public partial class NotasAgregarViewModel : BaseViewModel
 {
-    [ObservableProperty] private int idNota;
-    [ObservableProperty] private int idUsuario;
-    [ObservableProperty] private int idLibro;
-    [ObservableProperty] private string textoNota;
+    [ObservableProperty]
+    private string textoNota;
 
-    public NotasAgregarViewModel()
+    private readonly int _idLibro;
+
+    public NotasAgregarViewModel(int idLibro)
     {
         Title = "Agregar Nota";
+        _idLibro = idLibro;
     }
 
     [RelayCommand]
@@ -28,9 +29,8 @@ public partial class NotasAgregarViewModel : BaseViewModel
     {
         var nota = new Notas
         {
-            IdNota = IdNota,
-            IdUsuario = IdUsuario,
-            IdLibro = IdLibro,
+            IdUsuario = Transport.IdUsuario,
+            IdLibro = _idLibro,
             TextoNota = TextoNota
         };
 

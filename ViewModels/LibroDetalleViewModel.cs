@@ -21,6 +21,9 @@ public partial class LibroDetalleViewModel : BaseViewModel
     [ObservableProperty] private List<Autores> listaAutores;
     [ObservableProperty] private Autores? autorSeleccionado;
 
+    [ObservableProperty]
+    private List<ValoraciondeUsuario> listaValoraciones;
+
     private readonly string _accion;
 
     public LibroDetalleViewModel(Libros libro, string accion)
@@ -52,6 +55,7 @@ public partial class LibroDetalleViewModel : BaseViewModel
 
         _ = CargarCategorias();
         _ = CargarAutores();
+        _ = CargarValoraciones();
     }
 
     [RelayCommand]
@@ -62,6 +66,7 @@ public partial class LibroDetalleViewModel : BaseViewModel
         TextoBoton = "Guardar";
         _ = CargarCategorias();
         _ = CargarAutores();
+        _ = CargarValoraciones();
     }
 
     [RelayCommand]
@@ -150,6 +155,11 @@ public partial class LibroDetalleViewModel : BaseViewModel
         AutorSeleccionado = autores.FirstOrDefault(a => a.IdAutor == DetalleLibro.IdAutor);
     }
 
+    private async Task CargarValoraciones()
+    {
+        ListaValoraciones = await ApiService.ObtenerValoracionesPorLibro(DetalleLibro.IdLibro);
+    }
+
     [RelayCommand]
     private async Task GoBack()
     {
@@ -177,5 +187,68 @@ public partial class LibroDetalleViewModel : BaseViewModel
     private async Task VerNotas()
     {
         await Application.Current.MainPage.Navigation.PushAsync(new NotasPage(DetalleLibro.IdLibro));
+    }
+
+    [RelayCommand]
+    private async Task AgregarNota()
+    {
+        await Application.Current.MainPage.Navigation.PushAsync(
+            new NotasAgregarPage(DetalleLibro.IdLibro));
+    }
+    [RelayCommand]
+    private async Task VerValoraciones()
+    {
+        await Application.Current.MainPage.Navigation.PushAsync(
+            new ValoraciondeUsuariosPage(DetalleLibro.IdLibro));
+    }
+
+
+    [RelayCommand]
+    private async Task AñadirAlCarrito()
+    {
+        if (Transport.IdUsuario == 0)
+        {
+            await Application.Current.MainPage.DisplayAlert("Error", "Usuario inválido. No se puede crear el carrito.", "Aceptar");
+            return;
+        }
+
+        try
+        {
+            IsBusy = true;
+
+            var carritoConDetalle = new CarritoConDetalleDTO
+            {
+                IdUsuario = Transport.IdUsuario,
+                PrecioTotalCarrito = (double)DetalleLibro.Precio,
+                FechaCreacion = DateTime.Now,
+                Descripcion = $"Compra del día {DateTime.Now:dd/MM/yyyy}",
+                Estado = true,
+                IdLibro = DetalleLibro.IdLibro,
+                PrecioTotalDetalleCarrito = (double)DetalleLibro.Precio,
+                FechaFactura = DateTime.Now,
+                FechaCreacionFactura = DateTime.Now,
+                DetalleFactura = $"Libro '{DetalleLibro.Nombre}' comprado el {DateTime.Now:dd/MM/yyyy}"
+            };
+
+            bool ok = await ApiService.CrearCarritoConDetalle(carritoConDetalle);
+            if (ok)
+                await Application.Current.MainPage.DisplayAlert("Éxito", "Libro añadido al carrito correctamente.", "Aceptar");
+            else
+                await Application.Current.MainPage.DisplayAlert("Error", "No se pudo añadir al carrito", "Aceptar");
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert("Error", $"Error al crear carrito: {ex.Message}", "Aceptar");
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    [RelayCommand]
+    private async Task GoToValoraciones()
+    {
+        await Application.Current.MainPage.Navigation.PushAsync(new ValoraciondeUsuariosPage(DetalleLibro.IdLibro));
     }
 }

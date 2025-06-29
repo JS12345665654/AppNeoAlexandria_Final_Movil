@@ -14,7 +14,7 @@
                      IsRefreshing="{Binding IsRefreshing}">
             <ScrollView Margin="10">
                 <CollectionView Grid.Row="1"
-                                ItemsSource="{Binding Valoracion}"
+                                ItemsSource="{Binding Valoraciones}"
                                 SelectionMode="Single"
                                 SelectedItem="{Binding ValoracionSeleccionada}"
                                 SelectionChangedCommand="{Binding GoToValoracionDetalleCommand}">
@@ -38,14 +38,16 @@
                                     <Label Text="{Binding IdValoracion, StringFormat='ID: {0}'}"
                                            FontAttributes="Bold"
                                            TextColor="Black"/>
-                                    <Label Text="{Binding IdUsuario, StringFormat='Usuario: {0}'}"
+                                    <Label Text="{Binding NombreUsuario, StringFormat='Usuario: {0}'}"
                                            TextColor="Black"/>
                                     <Label Text="{Binding IdLibro, StringFormat='Libro: {0}'}"
                                            TextColor="Black"/>
                                     <Label Text="{Binding Valoracion, StringFormat='Valoración: {0}'}"
                                            TextColor="Black"/>
-                                    <Label Text="{Binding Puntuacion, StringFormat='Puntuación: {0}'}"
-                                           TextColor="Black"/>
+                                    <Image Source="{Binding Puntuacion, Converter={StaticResource PuntuacionToStarImageConverter}}"
+                                           HeightRequest="40"
+                                           WidthRequest="200"
+                                           HorizontalOptions="Center"/>
                                 </VerticalStackLayout>
                             </Border>
                         </DataTemplate>

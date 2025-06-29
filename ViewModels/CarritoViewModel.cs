@@ -30,7 +30,7 @@ namespace Prueba.ViewModels
         }
 
         [RelayCommand]
-        private async Task ObtenerTodosCarritos()
+        public async Task ObtenerTodosCarritos()
         {
             IsBusy = isRefreshing = true;
 

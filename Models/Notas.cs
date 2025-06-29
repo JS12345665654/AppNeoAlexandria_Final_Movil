@@ -11,6 +11,7 @@ public partial class Notas
 
     [ForeignKey("Libros")]
     public int IdLibro { get; set; }
-
+    [NotMapped] public string? NombreUsuario { get; set; }
+    [NotMapped] public string? NombreLibro { get; set; }
     public string? TextoNota { get; set; }
 }

@@ -56,7 +56,7 @@
 
                 <Button Text="Eliminar"
                         IsVisible="{Binding MostrarBotones}"
-                        Command="{Binding EjecutarAccionCommand}"
+                        Command="{Binding ConfirmarYEliminarCommand}"
                         BackgroundColor="Red"
                         TextColor="White"
                         CornerRadius="8" />

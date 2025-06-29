@@ -56,8 +56,6 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </RefreshView>
-
-        <!-- Botón Agregar -->
         <Grid Grid.Row="1" Grid.ColumnSpan="2" Padding="10" BackgroundColor="#00643b">
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
                 <Button Text="Agregar" 

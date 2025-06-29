@@ -35,14 +35,18 @@
                                 Margin="0,5"
                                 StrokeShape="RoundRectangle 8">
                             <VerticalStackLayout>
-                                <Label Text="{Binding IdNota, StringFormat='ID: {0}'}"
+                                <Label Text="{Binding IdNota, StringFormat='ID Nota: {0}'}"
                                        FontAttributes="Bold"
+                                       FontSize="18"
                                        TextColor="Black"/>
-                                <Label Text="{Binding IdLibro, StringFormat='Id Libro: {0}'}"
+                                <Label Text="{Binding NombreLibro, StringFormat='Libro: {0}'}"
+                                       FontSize="19"
                                        TextColor="Black"/>
-                                <Label Text="{Binding IdUsuario, StringFormat='Id Usuario: {0}'}"
+                                <Label Text="{Binding NombreUsuario, StringFormat='Usuario: {0}'}"
+                                       FontSize="18"
                                        TextColor="Black"/>
-                                <Label Text="{Binding TextoNota, StringFormat='TextoNota: {0}'}"
+                                <Label Text="{Binding TextoNota, StringFormat='Texto: {0}'}"
+                                       FontSize="17"
                                        LineBreakMode="TailTruncation"
                                        MaxLines="3"
                                        TextColor="Black"/>
@@ -54,17 +58,18 @@
         </RefreshView>
 
         <Grid Grid.Row="1" Padding="0,15,0,10">
-            <HorizontalStackLayout Padding="0"
-                           HorizontalOptions="Center"
-                           VerticalOptions="End">
+            <HorizontalStackLayout Padding="10"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="End">
                 <Button Text="Agregar"
-                TextColor="White"
-                BackgroundColor="Green"
-                Margin="0,0,0,10"
-                WidthRequest="140"
-                HeightRequest="45"
-                CornerRadius="8"
-                Command="{Binding GoToNotaAgregarCommand}" />
+                        TextColor="White"
+                        BackgroundColor="Green"
+                        Margin="0,0,0,10"
+                        WidthRequest="140"
+                        HeightRequest="45"
+                        CornerRadius="8"
+                        HorizontalOptions="Center"
+                        Command="{Binding GoToNotaAgregarCommand}" />
             </HorizontalStackLayout>
         </Grid>
     </Grid>

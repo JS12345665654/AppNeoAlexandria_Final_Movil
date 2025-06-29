@@ -15,30 +15,29 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <Grid HorizontalOptions="Center">
-        <ScrollView>
-            <StackLayout Padding="30" Spacing="10" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="310">
-                <Image Source="logo.png" HeightRequest="170" />
+        <StackLayout Padding="30" Spacing="10" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="310">
+            <Image Source="logo.png" HeightRequest="190" WidthRequest="190" />
 
-                <Label Text="{Binding Title}" FontSize="Large" TextColor="White" HorizontalOptions="Center"/>
+            <Label Text="{Binding Title}" FontSize="Large" TextColor="White" HorizontalOptions="Center"/>
 
-                <Entry Placeholder="Nombre" Text="{Binding Nombre}" 
+            <Entry Placeholder="Nombre" Text="{Binding Nombre}" 
                        IsVisible="{Binding ModoLogin, Converter={StaticResource InverseBool}}" />
 
-                <Entry Placeholder="Email" Text="{Binding Email}" />
+            <Entry Placeholder="Email" Text="{Binding Email}" />
 
-                <Entry Placeholder="Contraseña" Text="{Binding Contrasenia}" IsPassword="True" />
+            <Entry Placeholder="Contraseña" Text="{Binding Contrasenia}" IsPassword="True" />
 
-                <Entry Placeholder="Categoría preferida (opcional)" 
+            <Entry Placeholder="Categoría preferida (opcional)" 
                        Text="{Binding CategoriaPreferida}" 
                        IsVisible="{Binding ModoLogin, Converter={StaticResource InverseBool}}" />
 
-                <Label Text="Rol" 
+            <Label Text="Rol" 
                    TextColor="White" 
                    IsVisible="{Binding ModoLogin, Converter={StaticResource InverseBool}}"
                    FontAttributes="Bold"
                 />
 
-                <Picker Title="Seleccione un rol"
+            <Picker Title="Seleccione un rol"
                     ItemsSource="{Binding RolesDisponibles}"
                     SelectedItem="{Binding IdRol}"
                     IsVisible="{Binding ModoLogin, Converter={StaticResource InverseBool}}"
@@ -46,14 +45,13 @@
                     BackgroundColor="White"
                 />
 
-                <Button Text="{Binding ModoLogin, Converter={StaticResource BoolToLoginText}}" 
+            <Button Text="{Binding ModoLogin, Converter={StaticResource BoolToLoginText}}" 
                         Command="{Binding ConfirmarCommand}"
                         BackgroundColor="Blue" TextColor="White" CornerRadius="10" />
 
-                <Button Text="{Binding ModoLogin, Converter={StaticResource BoolToRegistroText}}" 
+            <Button Text="{Binding ModoLogin, Converter={StaticResource BoolToRegistroText}}" 
                         Command="{Binding CambiarModoCommand}"
                         BackgroundColor="Transparent" TextColor="White" FontAttributes="Italic" />
-            </StackLayout>
-        </ScrollView>
+        </StackLayout>
     </Grid>
 </ContentPage>

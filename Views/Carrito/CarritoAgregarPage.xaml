@@ -9,9 +9,6 @@
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
-            <Label Text="ID Carrito" TextColor="White"/>
-            <Entry Text="{Binding IdCarrito}" Keyboard="Numeric" BackgroundColor="White"/>
-
             <Label Text="ID Usuario" TextColor="White"/>
             <Entry Text="{Binding IdUsuario}" Keyboard="Numeric" BackgroundColor="White"/>
 

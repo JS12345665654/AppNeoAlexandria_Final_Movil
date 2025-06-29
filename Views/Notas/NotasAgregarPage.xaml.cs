@@ -4,9 +4,9 @@ namespace Prueba.Views.Notas;
 
 public partial class NotasAgregarPage : ContentPage
 {
-    public NotasAgregarPage()
+    public NotasAgregarPage(int idlibro)
     {
         InitializeComponent();
-        BindingContext = new NotasAgregarViewModel();
+        BindingContext = new NotasAgregarViewModel(idlibro);
     }
 }

@@ -13,6 +13,11 @@ public partial class ValoraciondeUsuariosDetalleViewModel : BaseViewModel
     [ObservableProperty] private string textoBoton;
     [ObservableProperty] private bool mostrarBotones;
 
+    [ObservableProperty] private List<Usuario> listaUsuarios;
+    [ObservableProperty] private Usuario usuarioSeleccionado;
+
+    public List<int> PuntuacionesDisponibles { get; } = new() { 1, 2, 3, 4, 5 };
+
     private readonly string _accion;
 
     public ValoraciondeUsuariosDetalleViewModel(ValoraciondeUsuario valoracion, string accion)
@@ -21,7 +26,7 @@ public partial class ValoraciondeUsuariosDetalleViewModel : BaseViewModel
         _accion = accion;
         Title = $"{accion} Valoración";
 
-        MostrarBotones = Transport.IdRol == "Administrador";
+        MostrarBotones = Transport.IdRol == "Administrador" || Transport.IdUsuario == DetalleValoracion.IdUsuario;
 
         if (_accion == "Detalle")
         {
@@ -41,14 +46,30 @@ public partial class ValoraciondeUsuariosDetalleViewModel : BaseViewModel
             ModoEdicion = true;
             TextoBoton = "Guardar";
         }
+
+        _ = CargarUsuarios();
+    }
+
+    private async Task CargarUsuarios()
+    {
+        var usuarios = await ApiService.ObtenerTodosUsuarios();
+        ListaUsuarios = usuarios;
+        UsuarioSeleccionado = usuarios.FirstOrDefault(u => u.IdUsuario == DetalleValoracion.IdUsuario);
     }
 
     [RelayCommand]
     private void ActivarEdicion()
     {
-        ModoEdicion = true;
-        EsSoloLectura = false;
-        TextoBoton = "Guardar";
+        if (Transport.IdRol == "Administrador" || Transport.IdUsuario == DetalleValoracion.IdUsuario)
+        {
+            ModoEdicion = true;
+            EsSoloLectura = false;
+            TextoBoton = "Guardar";
+        }
+        else
+        {
+            Application.Current.MainPage.DisplayAlert("Sin permiso", "No puede modificar esta valoración.", "Aceptar");
+        }
     }
 
     [RelayCommand]
@@ -75,6 +96,12 @@ public partial class ValoraciondeUsuariosDetalleViewModel : BaseViewModel
     [RelayCommand]
     private async Task ConfirmarYEliminar()
     {
+        if (Transport.IdRol != "Administrador")
+        {
+            await Application.Current.MainPage.DisplayAlert("Sin permiso", "Solo los administradores pueden eliminar valoraciones.", "Aceptar");
+            return;
+        }
+
         bool confirmar = await Application.Current.MainPage.DisplayAlert(
             "Confirmar", "¿Desea eliminar esta valoración?", "Sí", "Cancelar");
 
@@ -102,6 +129,10 @@ public partial class ValoraciondeUsuariosDetalleViewModel : BaseViewModel
         try
         {
             IsBusy = true;
+
+            if (UsuarioSeleccionado != null)
+                DetalleValoracion.IdUsuario = UsuarioSeleccionado.IdUsuario;
+
             await ApiService.ModificarValoracion(DetalleValoracion);
             await Application.Current.MainPage.DisplayAlert("Éxito", "Valoración modificada correctamente.", "Aceptar");
             await GoBack();

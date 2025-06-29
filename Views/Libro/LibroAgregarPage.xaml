@@ -34,7 +34,6 @@
             <Label Text="ID Autor" TextColor="White"/>
             <Entry Text="{Binding IdAutor}" Keyboard="Numeric" BackgroundColor="White"/>
 
-            <!-- Botones -->
             <Button Text="Guardar"
                     Command="{Binding CrearLibroCommand}"
                     BackgroundColor="DodgerBlue"

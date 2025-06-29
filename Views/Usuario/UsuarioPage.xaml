@@ -45,8 +45,8 @@
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
-                                                <Label Text="ID Usuario:" Grid.Column="0" HorizontalOptions="End" Padding="10,0"/>
-                                                <Label Text="{Binding IdUsuario}" Grid.Column="1" HorizontalOptions="Start"/>
+                                                <Label Text="ID Usuario:" Grid.Column="0" HorizontalOptions="End" Padding="10,0" TextColor="Black"/>
+                                                <Label Text="{Binding IdUsuario}" Grid.Column="1" HorizontalOptions="Start" TextColor="Black"/>
                                             </Grid>
 
                                             <Grid>
@@ -54,8 +54,8 @@
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
-                                                <Label Text="Nombre:" Grid.Column="0" HorizontalOptions="End" Padding="10,0"/>
-                                                <Label Text="{Binding Nombre}" Grid.Column="1" HorizontalOptions="Start"/>
+                                                <Label Text="Nombre:" Grid.Column="0" HorizontalOptions="End" Padding="10,0" TextColor="Black"/>
+                                                <Label Text="{Binding Nombre}" Grid.Column="1" HorizontalOptions="Start" TextColor="Black"/>
                                             </Grid>
 
                                             <Grid Padding="0,15,0,0">
@@ -63,8 +63,8 @@
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
-                                                <Label Text="Email:" Grid.Column="0" HorizontalOptions="End" Padding="10,0"/>
-                                                <Label Text="{Binding Email}" Grid.Column="1" HorizontalOptions="Start"/>
+                                                <Label Text="Email:" Grid.Column="0" HorizontalOptions="End" Padding="10,0" TextColor="Black"/>
+                                                <Label Text="{Binding Email}" Grid.Column="1" HorizontalOptions="Start" TextColor="Black"/>
                                             </Grid>
 
                                             <Grid Padding="0,15,0,0">
@@ -72,8 +72,8 @@
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
-                                                <Label Text="Categoría:" Grid.Column="0" HorizontalOptions="End" Padding="10,0"/>
-                                                <Label Text="{Binding CategoriaPreferida}" Grid.Column="1" HorizontalOptions="Start"/>
+                                                <Label Text="Categoría:" Grid.Column="0" HorizontalOptions="End" Padding="10,0" TextColor="Black"/>
+                                                <Label Text="{Binding CategoriaPreferida}" Grid.Column="1" HorizontalOptions="Start" TextColor="Black"/>
                                             </Grid>
                                         </StackLayout>
                                     </Grid>

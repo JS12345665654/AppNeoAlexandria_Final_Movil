@@ -26,19 +26,23 @@
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="8"/>
                             </Border.StrokeShape>
-                            <VerticalStackLayout>
-                                <Label Text="{Binding IdCarrito, StringFormat='ID: {0}'}" TextColor="Black"/>
-                                <Label Text="{Binding Descripcion, StringFormat='Descripción: {0}'}" TextColor="Black"/>
-                                <Label Text="{Binding PrecioTotalCarrito, StringFormat='Total: ${0:F2}'}" TextColor="Black"/>
-                                <Label Text="{Binding Estado, StringFormat='Activo: {0}'}" TextColor="Black"/>
-                            </VerticalStackLayout>
+                            <HorizontalStackLayout Spacing="10">
+                                <Image Source="carritos.png"
+                                       WidthRequest="60"
+                                       HeightRequest="60"
+                                       VerticalOptions="Center"/>
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding IdCarrito, StringFormat='ID: {0}'}" TextColor="Black"/>
+                                    <Label Text="{Binding Descripcion, StringFormat='Descripción: {0}'}" TextColor="Black"/>
+                                    <Label Text="{Binding PrecioTotalCarrito, StringFormat='Total: ${0:F2}'}" TextColor="Black"/>
+                                    <Label Text="{Binding Estado, StringFormat='Activo: {0}'}" TextColor="Black"/>
+                                </VerticalStackLayout>
+                            </HorizontalStackLayout>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </RefreshView>
-
-        <!-- Botón inferior -->
         <Grid Grid.Row="1" BackgroundColor="#00643b" Padding="10" HeightRequest="70">
             <Button Text="Agregar Carrito"
                     Command="{Binding GoToCarritoAgregarCommand}"

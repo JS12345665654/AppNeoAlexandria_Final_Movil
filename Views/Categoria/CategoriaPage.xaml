@@ -9,7 +9,6 @@
              BackgroundColor="#00643b">
 
     <Grid RowDefinitions="*,Auto">
-        <!-- Lista de Categorías -->
         <RefreshView Command="{Binding ObtenerTodasCategoriasCommand}" IsRefreshing="{Binding IsRefreshing}">
             <CollectionView ItemsSource="{Binding Categorias}"
                             SelectionMode="Single"
@@ -28,17 +27,15 @@
                                 <RoundRectangle CornerRadius="8"/>
                             </Border.StrokeShape>
                             <VerticalStackLayout Spacing="5">
-                                <Label Text="{Binding IdCategoria, StringFormat='ID: {0}'}" FontSize="14" TextColor="Black"/>
-                                <Label Text="{Binding NombreCategoria, StringFormat='Nombre: {0}'}" FontSize="16" FontAttributes="Bold" TextColor="Black"/>
-                                <Label Text="{Binding DescripcionCategoria, StringFormat='Descripción: {0}'}" FontSize="14" LineBreakMode="TailTruncation" TextColor="Black"/>
+                                <Label Text="{Binding IdCategoria, StringFormat='ID: {0}'}" FontSize="18" TextColor="Black"/>
+                                <Label Text="{Binding NombreCategoria, StringFormat='Nombre: {0}'}" FontSize="20" FontAttributes="Bold" TextColor="Black"/>
+                                <Label Text="{Binding DescripcionCategoria, StringFormat='Descripción: {0}'}" FontSize="17" LineBreakMode="TailTruncation" TextColor="Black"/>
                             </VerticalStackLayout>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </RefreshView>
-
-        <!-- Botón inferior -->
         <Grid Grid.Row="1" BackgroundColor="#00643b" Padding="10" HeightRequest="70">
             <Button Text="Agregar"
                     Command="{Binding GoToCategoriaAgregarCommand}"

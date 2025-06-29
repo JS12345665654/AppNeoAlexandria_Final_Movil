@@ -4,10 +4,10 @@ namespace Prueba.Views.ValoraciondeUsuarios
 {
     public partial class ValoraciondeUsuariosPage : ContentPage
     {
-        public ValoraciondeUsuariosPage()
+        public ValoraciondeUsuariosPage(int idlibro)
         {
             InitializeComponent();
-            BindingContext = new ValoraciondeUsuariosViewModel();
+            BindingContext = new ValoraciondeUsuariosViewModel(idlibro);
         }
 
         protected override void OnAppearing()
@@ -16,7 +16,14 @@ namespace Prueba.Views.ValoraciondeUsuarios
 
             if (BindingContext is ValoraciondeUsuariosViewModel vm)
             {
-                vm.ObtenerTodasValoracionesCommand.Execute(null);
+                if (vm.IdLibro == null)
+                {
+                    vm.ObtenerTodasValoracionesCommand.Execute(null);
+                }
+                else
+                {
+                    vm.ObtenerValoracionesPorLibroCommand.Execute(vm.IdLibro);
+                }
             }
         }
     }
